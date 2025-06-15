@@ -1,0 +1,211 @@
+[gd_scene load_steps=8 format=3 uid="uid://emhertvnrnna"]
+
+[ext_resource type="Script" uid="uid://vxnfwdj7s5t0" path="res://panel.gd" id="1_vm1a3"]
+[ext_resource type="SystemFont" uid="uid://c3jvqnggbo626" path="res://display_font.tres" id="2_q4mgu"]
+[ext_resource type="SystemFont" uid="uid://bj6wqcvloh1ta" path="res://time_font.tres" id="2_rfjf3"]
+[ext_resource type="Script" uid="uid://htbtga5icpkp" path="res://analog_display.gd" id="4_gpgj5"]
+[ext_resource type="Texture2D" uid="uid://pnynv26dhnm6" path="res://clock_face.png" id="4_wx7uy"]
+[ext_resource type="Texture2D" uid="uid://bv5rnf4gklapr" path="res://lock.svg" id="6_v7vdx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yd32m"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="App" type="Node"]
+
+[node name="UI" type="Control" parent="." groups=["opacity"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ClockContainer" type="CenterContainer" parent="UI/HBoxContainer"]
+custom_minimum_size = Vector2(99, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="UI/HBoxContainer/MarginContainer" node_paths=PackedStringArray("time_label", "seconds_label", "meridiem_label", "date_label", "day_label", "analog_display_canvas_group", "hour_hand", "minute_hand", "second_hand", "locked_icon")]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yd32m")
+script = ExtResource("1_vm1a3")
+time_label = NodePath("CenterContainer/MarginContainer/HBoxContainer/HoursMinutes")
+seconds_label = NodePath("CenterContainer/MarginContainer/HBoxContainer/AMAndSecondsContainer/Seconds")
+meridiem_label = NodePath("CenterContainer/MarginContainer/HBoxContainer/AMAndSecondsContainer/Meridiem")
+date_label = NodePath("CenterContainer/MarginContainer/HBoxContainer/DateContainer/Date")
+day_label = NodePath("CenterContainer/MarginContainer/HBoxContainer/DateContainer/WeekDayLabel")
+analog_display_canvas_group = NodePath("../../../../AnalogDisplay")
+hour_hand = NodePath("../../../../AnalogDisplay/HourHand")
+minute_hand = NodePath("../../../../AnalogDisplay/MinuteHand")
+second_hand = NodePath("../../../../AnalogDisplay/SecondHand")
+locked_icon = NodePath("../../../../LockedIcon")
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/HBoxContainer/MarginContainer/Panel"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/HBoxContainer/MarginContainer/Panel/CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer/Panel/CenterContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 5
+
+[node name="HoursMinutes" type="Label" parent="UI/HBoxContainer/MarginContainer/Panel/CenterContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("2_rfjf3")
+theme_override_font_sizes/font_size = 64
+text = "00:00"
+vertical_alignment = 1
+
+[node name="AMAndSecondsContainer" type="VBoxContainer" parent="UI/HBoxContainer/MarginContainer/Panel/CenterContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = -9
+
+[node name="Meridiem" type="Label" parent="UI/HBoxContainer/MarginContainer/Panel/CenterContainer/MarginContainer/HBoxContainer/AMAndSecondsContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_rfjf3")
+theme_override_font_sizes/font_size = 31
+text = "AM"
+vertical_alignment = 2
+
+[node name="Seconds" type="Label" parent="UI/HBoxContainer/MarginContainer/Panel/CenterContainer/MarginContainer/HBoxContainer/AMAndSecondsContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 1, 1, 0.392157)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_rfjf3")
+theme_override_font_sizes/font_size = 24
+text = "00"
+
+[node name="Divider" type="Label" parent="UI/HBoxContainer/MarginContainer/Panel/CenterContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_q4mgu")
+theme_override_font_sizes/font_size = 53
+text = "│"
+
+[node name="DateContainer" type="VBoxContainer" parent="UI/HBoxContainer/MarginContainer/Panel/CenterContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = -12
+
+[node name="Date" type="Label" parent="UI/HBoxContainer/MarginContainer/Panel/CenterContainer/MarginContainer/HBoxContainer/DateContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_rfjf3")
+theme_override_font_sizes/font_size = 18
+text = "01 Jan 1999"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HBoxContainer/MarginContainer/Panel/CenterContainer/MarginContainer/HBoxContainer/DateContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="WeekDayLabel" type="Label" parent="UI/HBoxContainer/MarginContainer/Panel/CenterContainer/MarginContainer/HBoxContainer/DateContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("2_rfjf3")
+theme_override_font_sizes/font_size = 31
+text = "Day"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="AnalogDisplay" type="Node2D" parent="." node_paths=PackedStringArray("clock_container") groups=["opacity"]]
+script = ExtResource("4_gpgj5")
+clock_container = NodePath("../UI/HBoxContainer/ClockContainer")
+
+[node name="ClockFace" type="Sprite2D" parent="AnalogDisplay"]
+position = Vector2(55, 50.65)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("4_wx7uy")
+metadata/_edit_group_ = true
+
+[node name="HourHand" type="Line2D" parent="AnalogDisplay"]
+position = Vector2(55, 51)
+scale = Vector2(0.35, 0.35)
+points = PackedVector2Array(0, 1, 0, -76)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+round_precision = 12
+antialiased = true
+
+[node name="MinuteHand" type="Line2D" parent="AnalogDisplay"]
+position = Vector2(55, 51)
+scale = Vector2(0.35, 0.35)
+points = PackedVector2Array(0, 1, 0, -100)
+width = 6.0
+joint_mode = 2
+round_precision = 6
+antialiased = true
+
+[node name="SecondHand" type="Line2D" parent="AnalogDisplay"]
+position = Vector2(55, 51)
+scale = Vector2(0.35, 0.35)
+points = PackedVector2Array(0, 0, 0, -110)
+width = 2.0
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+
+[node name="LockedIcon" type="TextureRect" parent="." groups=["opacity"]]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 504.0
+offset_top = 9.0
+offset_right = 764.0
+offset_bottom = 709.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.0320602, 0.0320602)
+texture = ExtResource("6_v7vdx")
+
+[connection signal="timeout" from="Timer" to="UI/HBoxContainer/MarginContainer/Panel" method="_on_timer_timeout"]

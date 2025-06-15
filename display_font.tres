@@ -1,0 +1,8 @@
+[gd_resource type="SystemFont" format=3 uid="uid://c3jvqnggbo626"]
+
+[resource]
+font_names = PackedStringArray("SF Pro Display")
+font_weight = 425
+generate_mipmaps = true
+subpixel_positioning = 3
+oversampling = 2.0
